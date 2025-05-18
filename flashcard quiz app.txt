@@ -1,0 +1,61 @@
+import random
+
+class FlashcardApp:
+    def __init__(self):
+        self.flashcards = {}
+        self.score = 0
+        self.total_questions = 0
+
+    def add_flashcard(self, question, answer):
+        self.flashcards[question] = answer
+        print(f"Flashcard added: '{question}' -> '{answer}'")
+
+    def quiz(self):
+        if not self.flashcards:
+            print("No flashcards available. Please add flashcards first.")
+            return
+
+        self.score = 0
+        self.total_questions = len(self.flashcards)
+        questions = list(self.flashcards.keys())
+        random.shuffle(questions)
+
+        for question in questions:
+            user_answer = input(f"Question: {question}\nYour answer: ")
+            if user_answer.strip().lower() == self.flashcards[question].strip().lower():
+                print("Correct!")
+                self.score += 1
+            else:
+                print(f"Incorrect. The correct answer was '{self.flashcards[question]}'.")
+
+        self.display_score()
+
+    def display_score(self):
+        print(f"Your score: {self.score}/{self.total_questions}")
+        percentage = (self.score / self.total_questions) * 100
+        print(f"Percentage: {percentage:.2f}%")
+
+def main():
+    app = FlashcardApp()
+    
+    while True:
+        print("\nFlashcard Quiz App")
+        print("1. Add flashcard")
+        print("2. Quiz yourself")
+        print("3. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            question = input("Enter the question: ")
+            answer = input("Enter the answer: ")
+            app.add_flashcard(question, answer)
+        elif choice == '2':
+            app.quiz()
+        elif choice == '3':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
